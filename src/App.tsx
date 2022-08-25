@@ -1,10 +1,14 @@
 import "./global.css"
-import styles from './App.module.css'
+// import styles from './App.module.css'
+import { Header } from "./components/Header/Header"
 
 function App() {
 
   return (
-    <h1>init</h1>
+    <div>
+      <Header />
+
+    </div>
   )
 }
 
