@@ -23,6 +23,14 @@ export function Task() {
     }
   ])
 
+  const handleCheckTask = (taskCheck: ITask) => {
+    const findTask = tasks.findIndex(task => taskCheck === task);
+
+    if (findTask) {
+      tasks[findTask].check = !taskCheck.check;
+    }
+  }
+
   const handleNewTaskChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewTask(event.target.value)
   }
@@ -102,6 +110,7 @@ export function Task() {
           <TaskRow
             hasCheck={task.check}
             content={task.content}
+            onCheckTask={handleCheckTask}
           />
         ))}
 
