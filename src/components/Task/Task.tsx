@@ -1,28 +1,114 @@
 import styles from './Task.module.css';
 
 import IconPlus from '../../assets/plus.svg';
-import { TaskList } from '../TaskList/TaskList';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import IconEmpty from '../../assets/empty.svg';
+import { TaskRow } from '../TaskRow/TaskRow';
+
+interface ITask {
+  content: string;
+  check: boolean;
+}
 
 export function Task() {
+  const [newTask, setNewTask] = useState<string>();
+  const [tasks, setTasks] = useState<ITask[]>([
+    {
+      content: 'Terminar esse sistema',
+      check: true
+    },
+    {
+      content: 'Terminar o livro',
+      check: true
+    }
+  ])
+
+  const handleNewTaskChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewTask(event.target.value)
+  }
+
+  const handleCreateNewTask = (event: FormEvent) => {
+    event.preventDefault();
+
+    const taskDuplicate = tasks.find(task => {
+      return newTask === task.content;
+    })
+
+    if (taskDuplicate) {
+      const confirm = window.confirm('Atividade duplicada, continuar?');
+
+      if (!confirm) {
+        return;
+      }
+    }
+
+    if (newTask) {
+      const newTaskDefault = {
+        content: newTask,
+        check: false,
+      }
+      setTasks([...tasks, newTaskDefault])
+    }
+
+    console.log('enviando')
+  }
+
+
   return (
     <div>
       <form
         className={styles.form}
+        onSubmit={handleCreateNewTask}
       >
         <input
+          placeholder='Adicione uma nova tarefa'
           className={styles.input}
           type="text"
-          placeholder='Adicione uma nova tarefa'
+          onChange={handleNewTaskChange}
         />
         <button
           className={styles.btn}
+          type={'submit'}
         >
           Criar
           <img src={IconPlus} alt="" />
         </button>
       </form>
 
-      <TaskList />
+      <header className={styles.header}>
+        <div>
+          <span className={styles.spanLeft}>Tarefas criadas</span>
+          <span className={styles.count}>0</span>
+        </div>
+
+        <div>
+          <span className={styles.spanRigth}>Concluídas</span>
+          <span className={styles.count}>0</span>
+        </div>
+      </header>
+
+      {tasks.length < 1 && (
+        <div className={styles.wrapperListEmpty}>
+          <img src={IconEmpty} />
+          <h1 className={styles.titleEmpty}>Você ainda não tem tarefas cadastradas</h1>
+          <p className={styles.descriptionEmpty}>Crie tarefas e organize seus itens a fazer</p>
+        </div>
+      )}
+
+      <div className={styles.wrapperList}>
+
+        {tasks?.map(task => (
+
+          <TaskRow
+            hasCheck={task.check}
+            content={task.content}
+          />
+        ))}
+
+
+      </div>
+
+
     </div>
   )
 }
