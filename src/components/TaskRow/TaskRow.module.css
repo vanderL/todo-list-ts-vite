@@ -11,6 +11,8 @@
   margin-bottom: 12px;
 
   width: 760px;
+
+  cursor: pointer;
 }
 
 .hasCheck {

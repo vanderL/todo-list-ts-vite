@@ -23,9 +23,10 @@ export function TaskRow({ content, hasCheck, onCheckTask, onDelete }: Task) {
     onDelete(content)
   }
   return (
-    <div className={styles.wrapperRow}>
+    <div className={styles.wrapperRow}
+
+    >
       <div
-        className="checkBox"
         onClick={() => onCheckTask({
           content,
           check: hasCheck
@@ -33,7 +34,13 @@ export function TaskRow({ content, hasCheck, onCheckTask, onDelete }: Task) {
       >
         <img src={hasCheck ? IconCheckFull : IconCheckEmpty} alt="" />
       </div>
-      <span className={hasCheck ? styles.hasCheck : undefined}>
+      <span
+        className={hasCheck ? styles.hasCheck : undefined}
+        onClick={() => onCheckTask({
+          content,
+          check: hasCheck
+        })}
+      >
         {content}
       </span>
       <div>
