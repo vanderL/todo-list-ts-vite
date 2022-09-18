@@ -1,7 +1,7 @@
 import styles from './Task.module.css';
 
 import IconPlus from '../../assets/plus.svg';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import IconEmpty from '../../assets/empty.svg';
 import { TaskRow } from '../TaskRow/TaskRow';
 
@@ -13,15 +13,16 @@ interface ITask {
 export function Task() {
   const [newTask, setNewTask] = useState<string>();
   const [tasks, setTasks] = useState<ITask[]>([
-    {
-      content: 'Terminar esse sistema',
-      check: true
-    },
-    {
-      content: 'Terminar o livro',
-      check: true
-    }
+
   ])
+
+  const totalTask = useMemo(() => {
+    return tasks.length;
+  }, [tasks]);
+
+  const totalCompleted = useMemo(() => {
+    return tasks.filter(task => task.check).length;
+  }, [tasks])
 
   const handleCheckTask = (taskCheck: ITask) => {
 
@@ -33,7 +34,7 @@ export function Task() {
         return task
       }
     });
-    setTasks(newTasks)
+    setTasks(newTasks);
 
   }
 
@@ -64,7 +65,8 @@ export function Task() {
       setTasks([...tasks, newTaskDefault])
     }
 
-    console.log('enviando')
+
+    setNewTask('')
   }
 
   const handleDeleteTask = (idTask: string) => {
@@ -85,6 +87,7 @@ export function Task() {
           className={styles.input}
           type="text"
           onChange={handleNewTaskChange}
+          value={newTask}
         />
         <button
           className={styles.btn}
@@ -98,12 +101,12 @@ export function Task() {
       <header className={styles.header}>
         <div>
           <span className={styles.spanLeft}>Tarefas criadas</span>
-          <span className={styles.count}>0</span>
+          <span className={styles.count}>{totalTask}</span>
         </div>
 
         <div>
           <span className={styles.spanRigth}>Concluídas</span>
-          <span className={styles.count}>0</span>
+          <span className={styles.count}>{totalCompleted}</span>
         </div>
       </header>
 
