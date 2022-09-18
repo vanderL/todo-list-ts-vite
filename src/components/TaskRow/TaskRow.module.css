@@ -16,3 +16,7 @@
 .hasCheck {
   text-decoration-line: line-through;
 }
+
+.delete {
+  cursor: pointer;
+}

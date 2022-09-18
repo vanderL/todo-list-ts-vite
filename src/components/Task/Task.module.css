@@ -11,6 +11,7 @@
   border: none;
   border-radius: 8px;
   width: 40rem;
+  color: var(--gray-100);
 }
 
 .input::placeholder {

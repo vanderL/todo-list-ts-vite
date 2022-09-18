@@ -24,11 +24,17 @@ export function Task() {
   ])
 
   const handleCheckTask = (taskCheck: ITask) => {
-    const findTask = tasks.findIndex(task => taskCheck === task);
 
-    if (findTask) {
-      tasks[findTask].check = !taskCheck.check;
-    }
+    const newTasks = tasks.map(task => {
+      if (taskCheck.content === task.content) {
+        task.check = !task.check
+        return task
+      } else {
+        return task
+      }
+    });
+    setTasks(newTasks)
+
   }
 
   const handleNewTaskChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +65,12 @@ export function Task() {
     }
 
     console.log('enviando')
+  }
+
+  const handleDeleteTask = (idTask: string) => {
+    setTasks(prevState => prevState.filter(
+      task => task.content !== idTask
+    ));
   }
 
 
@@ -111,6 +123,7 @@ export function Task() {
             hasCheck={task.check}
             content={task.content}
             onCheckTask={handleCheckTask}
+            onDelete={handleDeleteTask}
           />
         ))}
 

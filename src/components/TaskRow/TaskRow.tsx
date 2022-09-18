@@ -13,10 +13,15 @@ interface Task {
   content: string;
   hasCheck: boolean;
   onCheckTask: (Task: ITask) => void;
+  onDelete: (idToDelete: string) => void;
 }
 
-export function TaskRow({ content, hasCheck, onCheckTask }: Task) {
 
+export function TaskRow({ content, hasCheck, onCheckTask, onDelete }: Task) {
+
+  const handleDeleteTask = () => {
+    onDelete(content)
+  }
   return (
     <div className={styles.wrapperRow}>
       <div
@@ -32,7 +37,11 @@ export function TaskRow({ content, hasCheck, onCheckTask }: Task) {
         {content}
       </span>
       <div>
-        <img src={IconTrash} alt="" />
+        <img
+          className={styles.delete}
+          src={IconTrash}
+          onClick={handleDeleteTask}
+        />
       </div>
     </div>
   )
