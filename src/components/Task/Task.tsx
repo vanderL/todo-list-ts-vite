@@ -34,7 +34,7 @@ export function Task() {
         return task
       }
     });
-    setTasks(newTasks)
+    setTasks(newTasks);
 
   }
 
